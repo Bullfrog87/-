@@ -1,18 +1,44 @@
-
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>杜芬舒斯的問題終結者</title>
-  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>杜芬舒斯的問題終結者</h1>
-    <input type="text" id="topicInput" placeholder="請輸入一個主題...">
-    <button onclick="generateQuestions()">生成問題</button>
-    <div id="questionOutput"></div>
-  </div>
-  <script src="script.js"></script>
+  <h1>杜芬舒斯的問題終結者</h1>
+  <input type="text" id="topicInput" placeholder="輸入主題" />
+  <button onclick="generateQuestions()">產生問題</button>
+  <div id="questionOutput"></div>
+
+  <script>
+    async function generateQuestions() {
+      const topic = document.getElementById('topicInput').value.trim();
+      const output = document.getElementById('questionOutput');
+      output.innerHTML = "";
+
+      if (!topic) {
+        output.innerHTML = "<p>請先輸入主題！</p>";
+        return;
+      }
+
+      output.innerHTML = "<p>正在產生問題中...</p>";
+
+      try {
+        const res = await fetch('/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ topic })
+        });
+
+        const data = await res.json();
+        const questions = data.questions.split('\n').filter(q => q.trim() !== '');
+        output.innerHTML = "<h3>生成的問題：</h3><ul>" +
+          questions.map(q => `<li>${q}</li>`).join('') +
+          "</ul>";
+      } catch (err) {
+        output.innerHTML = "<p>產生失敗，請稍後再試。</p>";
+      }
+    }
+  </script>
 </body>
 </html>
