@@ -1,0 +1,29 @@
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f0f8ff;
+  text-align: center;
+  padding: 50px;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+}
+
+input {
+  width: 80%;
+  padding: 10px;
+  font-size: 16px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+#questionOutput {
+  margin-top: 30px;
+  text-align: left;
+}
